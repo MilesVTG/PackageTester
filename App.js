@@ -7,7 +7,8 @@
  */
 
 import React, {Component} from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+import {View, Text, SafeAreaView, TextInput} from 'react-native';
+import {Button} from 'react-native-elements';
 import MainNavigation from './src/components/Navigation/MainNavigation';
 import {connect} from 'react-redux';
 import {
@@ -15,8 +16,11 @@ import {
   deleteItem,
   selectItem,
   deselectItem,
+  changeName,
+  toggleLogin,
 } from './store/actions/index';
-// import {Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import styles from './styles/mainStyles';
 
 class App extends Component {
   itemAddedHandler = itemName => {
@@ -35,6 +39,10 @@ class App extends Component {
     this.props.onSelectItem(key);
   };
 
+  nameChangeHandler = name => {
+    this.props.onNameChange(name);
+  };
+
   componentDidMount() {
     this.props.onAddItem('hungry-mungry');
   }
@@ -44,13 +52,24 @@ class App extends Component {
   }
 
   render() {
-    return (
+    return this.props.loggedIn ? (
+      <MainNavigation />
+    ) : (
       <SafeAreaView>
         <Text>HERE {this.props.name}</Text>
-        <MainNavigation />
+        <TextInput
+          style={styles.test}
+          onChangeText={text => {
+            this.nameChangeHandler(text);
+          }}
+        />
+        <Button
+          buttonStyle="solid"
+          icon={<Icon name="rocket" size={150} color="#00aaff" />}
+          onPress={() => this.props.changeLogin()}
+        />
       </SafeAreaView>
     );
-    // return <MainNavigation />;
   }
 }
 
@@ -59,6 +78,7 @@ const mapStateToProps = state => {
     items: state.items.items,
     selectedItem: state.items.selectedItem,
     name: state.items.test,
+    loggedIn: state.items.loggedIn,
   };
 };
 
@@ -67,7 +87,9 @@ const mapDispatchToProps = dispatch => {
     onAddItem: name => dispatch(addItem(name)),
     onDeleteItem: () => dispatch(deleteItem()),
     onSelectItem: key => dispatch(selectItem(key)),
-    onDeselectItem: () => dispatch(deselectItem),
+    onDeselectItem: () => dispatch(deselectItem()),
+    onNameChange: name => dispatch(changeName(name)),
+    changeLogin: () => dispatch(toggleLogin()),
   };
 };
 

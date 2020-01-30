@@ -1,1 +1,8 @@
-export {addItem, deleteItem, selectItem, deselectItem} from './items';
+export {
+  addItem,
+  deleteItem,
+  selectItem,
+  deselectItem,
+  changeName,
+  toggleLogin,
+} from './items';

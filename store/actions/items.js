@@ -1,4 +1,11 @@
-import {ADD_ITEM, DELETE_ITEM, SELECT_ITEM, DESELECT_ITEM} from './actionTypes';
+import {
+  ADD_ITEM,
+  DELETE_ITEM,
+  SELECT_ITEM,
+  DESELECT_ITEM,
+  CHANGE_NAME,
+  TOGGLE_LOGIN,
+} from './actionTypes';
 
 export const addItem = itemName => {
   return {
@@ -23,5 +30,18 @@ export const selectItem = key => {
 export const deselectItem = () => {
   return {
     type: DESELECT_ITEM,
+  };
+};
+
+export const changeName = name => {
+  return {
+    type: CHANGE_NAME,
+    test: name,
+  };
+};
+
+export const toggleLogin = () => {
+  return {
+    type: TOGGLE_LOGIN,
   };
 };

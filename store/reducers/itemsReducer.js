@@ -3,12 +3,15 @@ import {
   DELETE_ITEM,
   SELECT_ITEM,
   DESELECT_ITEM,
+  CHANGE_NAME,
+  TOGGLE_LOGIN,
 } from '../actions/actionTypes';
 
 const initialState = {
   items: [],
   selectedItem: null,
   test: 'BobbyJoe',
+  loggedIn: false,
 };
 
 const itemsReducer = (state = initialState, action) => {
@@ -44,6 +47,13 @@ const itemsReducer = (state = initialState, action) => {
         ...state,
         selectedItem: null,
       };
+    case CHANGE_NAME:
+      return {
+        ...state,
+        test: action.test,
+      };
+    case TOGGLE_LOGIN:
+      return {...state, loggedIn: !state.loggedIn};
     default:
       return state;
   }
