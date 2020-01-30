@@ -17,7 +17,7 @@ const MainScreen = props => {
       <Button
         onPress={() => dispatch({type: TOGGLE_LOGIN})}
         title=" Hello Moe"
-        icon={<Icon name="terminal" size={26} color="white" />}
+        icon={<Icon name="thumbs-up" size={26} color="white" />}
       />
     </View>
   );
