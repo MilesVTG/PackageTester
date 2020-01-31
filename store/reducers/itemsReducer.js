@@ -10,7 +10,7 @@ import {
 const initialState = {
   items: [],
   selectedItem: null,
-  test: 'BobbyJoe',
+  test: 'GGG',
   loggedIn: false,
 };
 

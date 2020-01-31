@@ -48,7 +48,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    console.log(this.props.items);
+    // console.log(this.props.items);
   }
 
   render() {
