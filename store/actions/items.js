@@ -7,7 +7,7 @@ import {
   TOGGLE_LOGIN,
 } from './actionTypes';
 
-import {AsyncStorage} from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const addItem = itemName => {
   return {
@@ -36,23 +36,26 @@ export const deselectItem = () => {
 };
 
 export const changeName = name => {
-  const test = '@test';
-  const storeData = async () => {
-    try {
-      AsyncStorage.setItem(test, name);
-    } catch (e) {
-      console.log(e);
-    }
-    return {
+  return async dispatch => {
+    storeLocalStorageData('test', name);
+    const storageName = await getLocalStorageData('test');
+    console.log(storageName);
+
+    const sideEffect = fetch('https://the-one-api.herokuapp.com/v1/book', {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+    })
+      .then(resp => resp.json())
+      .then(data => data);
+
+    const sideData = await sideEffect;
+    console.log(sideData.docs[0].name);
+
+    await dispatch({
       type: CHANGE_NAME,
       test: name,
-    };
+    });
   };
-  //   return dispatch =>
-  //     dispatch({
-  //       type: CHANGE_NAME,
-  //       test: name,
-  //     });
 };
 
 export const toggleLogin = () => {
@@ -62,22 +65,24 @@ export const toggleLogin = () => {
 };
 
 // To read local stored data
-// export const getLocalStorageData = async key => {
-//   try {
-//     const value = await AsyncStorage.getItem(key);
-//     if (value !== null) {
-//       return value;
-//     }
-//   } catch (e) {
-//     // error reading value
-//   }
-// };
+export const getLocalStorageData = async key => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      return value;
+    }
+  } catch (e) {
+    console.log(e);
+    return false;
+    // error reading value
+  }
+};
 
-// // To save data in local storage
-// export const storeLocalStorageData = async (key, value) => {
-//   try {
-//     await AsyncStorage.setItem(key, value);
-//   } catch (e) {
-//     // saving error
-//   }
-// };
+// To save data in local storage
+export const storeLocalStorageData = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+  } catch (e) {
+    // saving error
+  }
+};
